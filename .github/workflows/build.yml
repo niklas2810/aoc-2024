@@ -39,7 +39,8 @@ jobs:
     needs: build-native
     strategy:
       matrix:
-        day: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+        day: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        folder: ["actual", "example"]
     steps:
     - uses: actions/checkout@v4
     - uses: actions/download-artifact@v4
@@ -50,4 +51,5 @@ jobs:
       run: mkdir runtime && tar -xzvf linux-build.tar.gz -C runtime
     - name: Execute
       working-directory: runtime
-      run: ./aoc2024 ${{ matrix.day }}
+      run: ./aoc2024 ${{ matrix.day }} ${{ matrix.folder }}
+    name: Day ${{ matrix.day }} (${{ matrix.folder }} input)
