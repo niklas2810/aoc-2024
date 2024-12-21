@@ -95,7 +95,7 @@ namespace AOC2024.Cli.Utils
     }
 }
 ");
-            context.AddSource("GeneratedDayBaseImplementations.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
+            context.AddSource("ImplementedSolutions.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
         }
 
         private class ClassSyntaxReceiver : ISyntaxReceiver
