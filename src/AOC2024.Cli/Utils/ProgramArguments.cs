@@ -9,7 +9,7 @@ public class ProgramArguments
     {
         if (args.Length < 2)
         {
-            throw new ArgumentException("Please provide day number as argument");
+            throw new ArgumentException("Syntax: aoc2024 <day> <folder>");
         }
 
         var dayString = args[0];
