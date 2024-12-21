@@ -30,7 +30,7 @@ if(!Directory.Exists($"inputs/{programArgs.Folder}"))
 var dayBaseType = typeof(DayBase);
 var dayImpls = new List<DayBase>
 {
-    new Day01(), new Day02()
+    new Day01(), new Day02(), new Day03()
 };
 
 // Find the implementation for the given day

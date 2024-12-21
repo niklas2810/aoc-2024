@@ -35,7 +35,7 @@ public abstract class DayBase
         if (files.Count == 0)
             throw new FileNotFoundException($"No files found for day {DayNumber}");
 
-        var partName = $"{DayNumberString}-{part}.txt";
+        var partName = $"{DayNumberString}-p{part}.txt";
         if (files.Contains(partName))
             return ReadFile(folder, partName);
         return ReadFile(folder, $"{DayNumberString}.txt");
