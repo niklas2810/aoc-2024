@@ -30,7 +30,7 @@ if(!Directory.Exists($"inputs/{programArgs.Folder}"))
 var dayBaseType = typeof(DayBase);
 var dayImpls = new List<DayBase>
 {
-    new Day01()
+    new Day01(), new Day02()
 };
 
 // Find the implementation for the given day
@@ -41,6 +41,6 @@ if (dayImpl == null)
     return;
 }
 
-Console.WriteLine($"-- Day {dayImpl.DayNumber}: {dayImpl.Name} (from '{programArgs.Folder}') --");
+Console.WriteLine($"-- Day {dayImpl.DayNumber}: {dayImpl.Name} (input: '{programArgs.Folder}') --");
 
 await ExecutionHelper.ExecuteSolution(dayImpl, programArgs.Folder);
