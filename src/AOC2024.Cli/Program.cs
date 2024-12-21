@@ -1,5 +1,8 @@
 ﻿// Get command line arguments
 
+using AOC2024.Cli.Solutions;
+using AOC2024.Cli.Utils;
+
 ProgramArguments? programArgs = null;
 
 try {
@@ -22,14 +25,22 @@ if(!Directory.Exists($"inputs/{programArgs.Folder}"))
     Console.WriteLine($"error: Could not find folder 'inputs/{programArgs.Folder}'");
     return;
 }
-var inputFiles = Directory.GetFiles($"inputs/{programArgs.Folder}", $"{programArgs.DayString}*.txt");
 
-if (inputFiles.Length == 0)
+// Find all implementations of DayBase
+var dayBaseType = typeof(DayBase);
+var dayImpls = new List<DayBase>
 {
-    Console.WriteLine($"No input files found for day '{programArgs.DayString}' in folder 'inputs/{programArgs.Folder}'");
+    new Day01()
+};
+
+// Find the implementation for the given day
+var dayImpl = dayImpls.FirstOrDefault(d => d.DayNumber == programArgs.Day);
+if (dayImpl == null)
+{
+    Console.WriteLine($"No implementation found for day {programArgs.Day}");
     return;
 }
 
-Console.WriteLine($"-- Day {programArgs.Day}, source '{programArgs.Folder}' --");
+Console.WriteLine($"-- Day {dayImpl.DayNumber}: {dayImpl.Name} (from '{programArgs.Folder}') --");
 
-Console.WriteLine("<Execute code here>");
+await ExecutionHelper.ExecuteSolution(dayImpl, programArgs.Folder);

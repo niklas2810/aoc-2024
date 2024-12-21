@@ -3,7 +3,6 @@ using System;
 public class ProgramArguments
 {
     public int Day { get; }
-    public string DayString { get; }
     public string Folder { get; }
 
     public ProgramArguments(string[] args)
@@ -20,7 +19,6 @@ public class ProgramArguments
         }
 
         Day = day;
-        DayString = day < 10 ? $"0{day}" : day.ToString();
         Folder = args[1];
     }
 }
