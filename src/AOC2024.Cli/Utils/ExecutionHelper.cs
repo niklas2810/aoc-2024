@@ -1,4 +1,3 @@
-using System;
 using AOC2024.Cli.Solutions;
 using System.Diagnostics;
 
