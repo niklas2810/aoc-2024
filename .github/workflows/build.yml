@@ -1,0 +1,53 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+# (Shamelessly copied from last year's project)
+
+name: Build & Run
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: 9.0.x
+
+jobs:
+  build-native:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    - name: Restore dependencies
+      run: dotnet restore src/AOC2024.Cli
+    - name: Build CLI
+      run: dotnet publish src/AOC2024.Cli --no-restore -c Release -o deploy --nologo
+    - name: Pack TAR with build
+      run: tar -czvf linux-build.tar.gz -C deploy .
+    - uses: actions/upload-artifact@v4
+      with:
+        name: linux-build
+        path: linux-build.tar.gz
+
+  native-single:
+    runs-on: ubuntu-latest
+    needs: build-native
+    strategy:
+      matrix:
+        day: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/download-artifact@v4
+      with:
+        name: linux-build
+        path: .
+    - name: Extract build
+      run: mkdir runtime && tar -xzvf linux-build.tar.gz -C runtime
+    - name: Execute
+      working-directory: runtime
+      run: ./aoc2024 ${{ matrix.day }}
