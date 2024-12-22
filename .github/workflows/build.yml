@@ -27,6 +27,13 @@ jobs:
       run: dotnet restore src/AOC2024.Cli
     - name: Build CLI
       run: dotnet publish src/AOC2024.Cli --no-restore -c Release -o deploy --nologo
+    - name: Download hyperfine
+        run: |
+          export HYPERFINE_VERSION=1.19.0
+          wget https://github.com/sharkdp/hyperfine/releases/download/v$HYPERFINE_VERSION/hyperfine-v$HYPERFINE_VERSION-x86_64-unknown-linux-gnu.tar.gz
+          tar -xzvf hyperfine-v$HYPERFINE_VERSION-x86_64-unknown-linux-gnu.tar.gz
+          mv hyperfine-v$HYPERFINE_VERSION-x86_64-unknown-linux-gnu/hyperfine deploy
+          chmod +x ./deploy/hyperfine
     - name: Pack TAR with build
       run: tar -czvf linux-build.tar.gz -C deploy .
     - uses: actions/upload-artifact@v4
@@ -46,8 +53,9 @@ jobs:
         days_json=$(echo "[\"${days//,/\",\"}\"]")
         echo "days=$days_json" >> $GITHUB_OUTPUT
 
-  native-single:
+  benchmark:
     runs-on: ubuntu-latest
+    name: Day ${{ matrix.day }} (${{ matrix.folder }} input)
     needs: [build-native, determine-days]
     strategy:
       matrix:
@@ -63,5 +71,4 @@ jobs:
       run: mkdir runtime && tar -xzvf linux-build.tar.gz -C runtime
     - name: Execute
       working-directory: runtime
-      run: ./aoc2024 ${{ matrix.day }} ${{ matrix.folder }}
-    name: Day ${{ matrix.day }} (${{ matrix.folder }} input)
+      run: ./hyperfine --warmup 3 './aoc2024 ${{ matrix.day }} ${{ matrix.folder }}'

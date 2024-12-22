@@ -19,3 +19,8 @@ Same as last year: I've been using GitHub Copilot for over a year now. I'll refr
 ## License
 
 This code is published under MIT License, so feel free to use it as you please (I don't care).
+
+Dependencies:
+
+- .NET 9
+- [hyperfine](https://github.com/sharkdp/hyperfine) for benchmarking
