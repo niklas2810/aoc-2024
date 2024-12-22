@@ -69,6 +69,9 @@ jobs:
         path: .
     - name: Extract build
       run: mkdir runtime && tar -xzvf linux-build.tar.gz -C runtime
-    - name: Execute
+    - name: Output
+      working-directory: runtime
+      run: ./aoc2024 ${{ matrix.day }} ${{ matrix.folder }}
+    - name: Benchmark
       working-directory: runtime
       run: ./hyperfine --warmup 3 './aoc2024 ${{ matrix.day }} ${{ matrix.folder }}'
