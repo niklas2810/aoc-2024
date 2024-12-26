@@ -43,32 +43,22 @@ public static class ExecutionHelper
     public static async Task ExecuteSolution(DayBase solution, string folder)
     {
         Console.WriteLine($"-- Day {solution.DayNumber}: {solution.Name} (input: '{folder}') --");
-        try
-        {
-            var input = solution.ReadFile(folder, 1);
-            var stopwatch = Stopwatch.StartNew();
-            var result = await solution.SolvePartOne(input);
-            stopwatch.Stop();
-            var elapsedMs = stopwatch.ElapsedTicks / (Stopwatch.Frequency / 1000.0);
-            Console.WriteLine($"Part 1: {result} (in {elapsedMs:0.0} ms)");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Part 1: {e.Message} ({e.GetType().Name})");
-        }
+        
+        var input1 = solution.ReadFile(folder, 1);
+        var stopwatch1 = Stopwatch.StartNew();
+        var result1 = await solution.SolvePartOne(input1);
+        stopwatch1.Stop();
+        var elapsedMs1 = stopwatch1.ElapsedTicks / (Stopwatch.Frequency / 1000.0);
+        Console.WriteLine($"Part 1: {result1} (in {elapsedMs1:0.0} ms)");
+    
 
-        try
-        {
-            var input = solution.ReadFile(folder, 2);
-            var stopwatch = Stopwatch.StartNew();
-            var result = await solution.SolvePartTwo(input);
-            stopwatch.Stop();
-            var elapsedMs = stopwatch.ElapsedTicks / (Stopwatch.Frequency / 1000.0);
-            Console.WriteLine($"Part 2: {result} (in {elapsedMs:0.0} ms)");
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Part 2: {e.Message} ({e.GetType().Name})");
-        }
+        var input2 = solution.ReadFile(folder, 2);
+        var stopwatch2 = Stopwatch.StartNew();
+        var result2 = await solution.SolvePartTwo(input2);
+        stopwatch2.Stop();
+        var elapsedMs2 = stopwatch2.ElapsedTicks / (Stopwatch.Frequency / 1000.0);
+        Console.WriteLine($"Part 2: {result2} (in {elapsedMs2:0.0} ms)");
+    
+        
     }
 }
